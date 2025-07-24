@@ -12,7 +12,6 @@ Prérequis
 
 1. Installation
 
-Clonez le dépôt et installez les dépendances pour le backend et le frontend.
 Bash
 
 # 1. Cloner le projet
@@ -27,13 +26,11 @@ npm install
 cd ../zoo-frontend
 npm install
 
-2. Configuration d'Auth0
-
-Ce projet utilise Auth0 pour l'authentification. Une configuration minimale est requise.
+2. Configuration
 
 Backend (zoo-backend/.env)
 
-À la racine du dossier zoo-backend, créez un fichier .env et remplissez-le avec vos informations Auth0 :
+À la racine du dossier zoo-backend, créez un fichier .env avec le contenu suivant. Remplacez les placeholders par vos propres informations Auth0.
 Extrait de code
 
 # Configuration de la base de données
@@ -49,7 +46,7 @@ AUTH0_AUDIENCE=[VOTRE_IDENTIFIER_API]
 
 Frontend (zoo-frontend/src/main.ts)
 
-Ouvrez le fichier zoo-frontend/src/main.ts et mettez à jour la configuration provideAuth0 :
+Ouvrez le fichier zoo-frontend/src/main.ts et mettez à jour la configuration provideAuth0 avec vos informations Auth0.
 TypeScript
 
 // ...
@@ -98,3 +95,17 @@ cd zoo-frontend
 ng serve
 
 L'application est maintenant accessible sur http://localhost:4200.
+
+4. Tester l'API avec Swagger
+
+    Une fois le backend démarré, la documentation Swagger est accessible à l'adresse :
+
+        http://localhost:3000/api
+
+    Pour tester les routes protégées (celles avec un cadenas) :
+
+        Connectez-vous sur l'application frontend (http://localhost:4200).
+
+        Ouvrez la console du navigateur (F12) et cliquez sur "Tester l'API" pour afficher votre Access Token.
+
+        Copiez ce token et collez-le dans Swagger en cliquant sur le bouton Authorize.
