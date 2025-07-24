@@ -1,111 +1,125 @@
-Projet d'évaluation : Zoo Full-Stack (NestJS + Angular)
+<p align="center">
+  <img src="https://img.shields.io/badge/Zoo-Full%20Stack-brightgreen" alt="Zoo Full-Stack" />
+  <img src="https://img.shields.io/badge/NestJS-API-orange" alt="NestJS" />
+  <img src="https://img.shields.io/badge/Angular-Frontend-red" alt="Angular" />
+</p>
 
-Ce document fournit les instructions nécessaires pour installer, configurer et lancer l'application complète de gestion de zoo.
+# 🦁 Zoo Full-Stack
 
-Prérequis
+> **Objectif** : Déployer localement l’API NestJS et l’app Angular pour une **évaluation**.
 
-    Node.js (v18 ou supérieure)
+---
 
-    Docker et Docker Desktop
+## 🚀 Prérequis
 
-    Git
+* **Node.js** (v18+) & **npm**
+* **Docker** / **Docker Desktop**
+* **Git**
 
-1. Installation
+---
 
-Bash
+## 📥 1. Installation
 
+```bash
 # 1. Cloner le projet
 git clone https://github.com/Le-F-Sur-GitH/Evaluation-TypeScript.git
 cd Evaluation-TypeScript
 
-# 2. Installer les dépendances du Backend
-cd zoo-backend
-npm install
+# 2. Dépendances Backend
+cd zoo-backend && npm install
 
-# 3. Installer les dépendances du Frontend
-cd ../zoo-frontend
-npm install
+# 3. Dépendances Frontend
+cd ../zoo-frontend && npm install
+```
 
-2. Configuration
+---
 
-Backend (zoo-backend/.env)
+## ⚙️ 2. Configuration
 
-À la racine du dossier zoo-backend, créez un fichier .env avec le contenu suivant. Remplacez les placeholders par vos propres informations Auth0.
-Extrait de code
+### 🔧 Backend
 
-# Configuration de la base de données
-DB_HOST=localhost
-DB_PORT=5432
-DB_USERNAME=myuser
-DB_PASSWORD=mypassword
-DB_DATABASE=zoo
+1. Copier l’exemple d’env :
 
-# Configuration Auth0
-AUTH0_ISSUER_BASE_URL=https://[VOTRE_DOMAINE].auth0.com/
-AUTH0_AUDIENCE=[VOTRE_IDENTIFIER_API]
+   ```bash
+   cd zoo-backend
+   cp .env.example .env
+   ```
+2. Modifier `.env` :
 
-Frontend (zoo-frontend/src/main.ts)
+   ```env
+   DB_HOST=localhost
+   DB_PORT=5432
+   DB_USERNAME=myuser
+   DB_PASSWORD=mypassword
+   DB_DATABASE=zoo
 
-Ouvrez le fichier zoo-frontend/src/main.ts et mettez à jour la configuration provideAuth0 avec vos informations Auth0.
-TypeScript
+   AUTH0_ISSUER_BASE_URL=https://<VOTRE_DOMAINE>.auth0.com/
+   AUTH0_AUDIENCE=<VOTRE_IDENTIFIER_API>
+   ```
 
-// ...
-provideAuth0({
-  domain: '[VOTRE_DOMAINE].auth0.com',
-  clientId: '[VOTRE_CLIENT_ID]',
-  authorizationParams: {
-    redirect_uri: 'http://localhost:4200',
-    audience: '[VOTRE_IDENTIFIER_API]',
-    scope: 'openid profile email'
-  },
-  httpInterceptor: {
-    allowedList: [`http://localhost:3000/*`],
-  },
-}),
-// ...
+### 🌐 Frontend
 
-3. Lancement de l'application
+* Ouvrir `zoo-frontend/src/main.ts` et ajuster :
 
-Ouvrez 3 terminaux distincts à la racine du projet.
+  ```ts
+  provideAuth0({
+    domain: '<VOTRE_DOMAINE>.auth0.com',
+    clientId: '<VOTRE_CLIENT_ID>',
+    authorizationParams: {
+      redirect_uri: 'http://localhost:4200',
+      audience: '<VOTRE_IDENTIFIER_API>',
+      scope: 'openid profile email'
+    },
+    httpInterceptor: {
+      allowedList: ['http://localhost:3000/*'],
+    },
+  });
+  ```
 
-Terminal 1 : Base de données (Docker)
+---
 
-Bash
+## ▶️ 3. Lancement
 
-# Démarre le conteneur PostgreSQL
-docker run --name zoo-db -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=mypassword -e POSTGRES_DB=zoo -p 5432:5432 -d postgres:16
+### Terminal 1 : 🐘 PostgreSQL
 
-# Si le conteneur existe déjà, utilisez plutôt :
-docker start zoo-db
+```bash
+docker run --name zoo-db \
+  -e POSTGRES_USER=myuser \
+  -e POSTGRES_PASSWORD=mypassword \
+  -e POSTGRES_DB=zoo \
+  -p 5432:5432 -d postgres:16
+# ou : docker start zoo-db
+```
 
-Terminal 2 : Backend (API NestJS)
+### Terminal 2 : 🚏 API (NestJS)
 
-Bash
-
-cd zoo-backend
+```bash
+cd Evaluation-TypeScript/zoo-backend
 npm run start:dev
+```
 
-L'API est maintenant disponible sur http://localhost:3000.
+🔗 [http://localhost:3000](http://localhost:3000)
 
-Terminal 3 : Frontend (Angular)
+### Terminal 3 : 🦓 Frontend (Angular)
 
-Bash
-
-cd zoo-frontend
+```bash
+cd Evaluation-TypeScript/zoo-frontend
 ng serve
+```
 
-L'application est maintenant accessible sur http://localhost:4200.
+🔗 [http://localhost:4200](http://localhost:4200)
 
-4. Tester l'API avec Swagger
+---
 
-    Une fois le backend démarré, la documentation Swagger est accessible à l'adresse :
+## 🔍 4. Tester avec Swagger
 
-        http://localhost:3000/api
+1. Ouvrir 👉 [http://localhost:3000/api](http://localhost:3000/api)
+2. Pour les endpoints protégés :
 
-    Pour tester les routes protégées (celles avec un cadenas) :
+   * Se connecter via le frontend
+   * Copier l’Access Token (Console devtools)
+   * Cliquer **Authorize** et coller le token
 
-        Connectez-vous sur l'application frontend (http://localhost:4200).
+---
 
-        Ouvrez la console du navigateur (F12) et cliquez sur "Tester l'API" pour afficher votre Access Token.
-
-        Copiez ce token et collez-le dans Swagger en cliquant sur le bouton Authorize.
+> *Voilà ! Votre application zoo est prête pour l’évaluation.* 🎉
