@@ -1,0 +1,22 @@
+<mat-toolbar color="primary">
+  <span>🐾 Mon Zoo</span>
+  <button mat-button routerLink="/animaux">Liste des Animaux</button>
+  <button mat-button routerLink="/habitats">Habitats</button>
+  <span class="spacer"></span>
+
+  @if (auth.isAuthenticated$ | async) {
+    <span class="username">Bonjour, {{ username }}</span>
+    <button mat-button (click)="testCallApi()">Tester l'API</button>
+    <button mat-button (click)="auth.logout({ logoutParams: { returnTo: document.location.origin } })">
+      Déconnexion
+    </button>
+  } @else {
+    <button mat-button (click)="auth.loginWithRedirect()">
+      Connexion
+    </button>
+  }
+</mat-toolbar>
+
+<div class="content">
+  <router-outlet></router-outlet>
+</div>
